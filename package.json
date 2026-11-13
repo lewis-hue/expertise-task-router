@@ -1,0 +1,20 @@
+{
+  "name": "terac-task-router",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Terac task management and assignment demo: operator console plus simulated routing engine.",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node --watch server/server.js",
+    "test": "node --test test/*.test.js",
+    "test:queue": "node --test test/queue.test.js",
+    "build": "npm --prefix client run build",
+    "setup": "npm install && npm --prefix client install && npm --prefix client run build"
+  },
+  "dependencies": {
+    "bullmq": "^6.7.5",
+    "express": "^5.3.0",
+    "ioredis": "^6.0.0"
+  }
+}

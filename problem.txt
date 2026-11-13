@@ -1,0 +1,35 @@
+At Terac, we help research teams find and work with people who have the knowledge their projects require. Doing that well means coordinating work across people and automation, while giving operators the context and control to handle the cases that do not go as planned.
+
+For this exercise, build a small full-stack system that assigns tasks to people who work on them.
+
+The challenge
+Each task requires an area of expertise. Each contributor has one or more areas of expertise. An automatic routing engine tries to make assignments, while an operator monitors the system and intervenes when necessary.
+
+The product should let an operator:
+
+See tasks with their time since created, contributors, and the current state of the operation.
+Create a task and submit it for assignment.
+Intervene in an assignment whenever they want.
+Recover a task from an assignment that failed or was declined.
+Inspect enough history to understand what happened.
+Seed the application with a small set of tasks and contributors. Use approachable expertise areas such as finance, healthcare, data analysis, and operations, or choose your own.
+
+For this exercise, each task can have at most one active assignee. Once a contributor accepts an assignment, routing for that task is complete.
+
+How routing behaves
+Submitting a task starts a routing request in the background. The engine receives the task and the contributors whose areas of expertise match it.
+
+A routing request normally takes between 5 and 20 seconds to return.
+When it returns, it selects one of the eligible contributors or reports that no match was found.
+20% of routing requests never return. They do not report an error or announce that they are stuck; they simply remain unresolved.
+The operator cannot know whether a particular pending request is slow or will never return.
+Implement a simulation of this engine. The matching rules can be simple, and you may add controls or deterministic scenarios that make the behavior easy to test and demonstrate. Building a sophisticated recommendation algorithm is not the focus of the exercise.
+
+Several tasks may be routed around the same time. An operator may intervene while routing is still pending, and the application may be refreshed or restarted while work is active. Decide how the product should behave in these situations and make the important choices visible.
+
+Use cases
+Routine assignment: a task enters the system, is matched with a suitable contributor, and moves through the normal workflow.
+Unresolved routing: a high-priority task remains pending, and the operator cannot know whether the engine is slow or will never return.
+Human intervention: the operator intervenes while routing is pending, and the outstanding request may still return afterward.
+Recovery: an assignment is declined or fails before work begins, and the operator needs to understand what happened and decide what to do next.
+These situations describe the operating environment, not a required architecture or exact set of states. Make reasonable product and technical decisions and document the important ones.

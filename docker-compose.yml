@@ -1,0 +1,44 @@
+services:
+  redis:
+    image: redis:7-alpine3.22
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  api:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      REDIS_URL: redis://redis:6379
+      WORKER_CONCURRENCY: 4
+      DATA_DIR: /app/data
+    volumes:
+      - sqlite-data:/app/data
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  worker:
+    build: .
+    command: ["node", "server/worker.js"]
+    environment:
+      REDIS_URL: redis://redis:6379
+      WORKER_CONCURRENCY: 4
+      DATA_DIR: /app/data
+    volumes:
+      - sqlite-data:/app/data
+    depends_on:
+      redis:
+        condition: service_healthy
+
+volumes:
+  redis-data:
+  sqlite-data:
